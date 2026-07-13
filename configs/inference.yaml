@@ -1,0 +1,25 @@
+# Inference Configuration
+inference:
+  batch_size: 64
+  device: "cuda"
+  num_workers: 4
+  pin_memory: true
+
+# Model Loading
+model:
+  checkpoint_path: "./saved_models/best_model.pt"
+  ensemble: false
+  num_models: 1
+
+# Output Configuration
+output:
+  format: "json"
+  include_confidence: true
+  include_features: false
+  save_predictions: true
+  output_path: "./outputs/predictions"
+
+# Thresholds
+thresholds:
+  decision_threshold: 0.5
+  confidence_threshold: 0.7

@@ -1,0 +1,21 @@
+# Model Architecture Configuration
+model:
+  name: "AST"  # Audio Spectrogram Transformer
+  type: "transformer"
+  pretrained: true
+  num_classes: 2
+  embedding_dim: 768
+  num_heads: 12
+  num_layers: 12
+  dropout: 0.1
+
+# Additional Model Options
+cnn:
+  name: "ResNet18"
+  type: "cnn"
+  pretrained: true
+  num_classes: 2
+
+fusion:
+  enabled: true
+  fusion_type: "early"  # early, late, hybrid
