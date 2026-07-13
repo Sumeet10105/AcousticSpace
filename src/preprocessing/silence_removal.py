@@ -1,0 +1,1 @@
+"""Silence removal from audio."""

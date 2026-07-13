@@ -1,0 +1,43 @@
+# Main Configuration File
+project: "AcousticSpace"
+version: "0.1.0"
+
+# Dataset Configuration
+dataset:
+  name: "ASVspoof2019"
+  task: "LA"  # LA (Logical Access) or PA (Physical Access)
+  sample_rate: 16000
+  duration: 10  # seconds
+  train_split: 0.8
+  val_split: 0.1
+  test_split: 0.1
+
+# Audio Processing
+audio:
+  sample_rate: 16000
+  n_fft: 512
+  hop_length: 160
+  n_mels: 64
+  n_mfcc: 13
+  f_min: 50
+  f_max: 8000
+
+# Paths
+paths:
+  dataset_root: "./datasets"
+  raw_data: "./datasets/raw"
+  processed_data: "./datasets/processed"
+  metadata: "./datasets/metadata"
+  models: "./saved_models"
+  checkpoints: "./saved_models/checkpoints"
+  outputs: "./outputs"
+  logs: "./outputs/logs"
+
+# Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  log_file: "./outputs/logs/training.log"
+
+# Seed for reproducibility
+seed: 42
