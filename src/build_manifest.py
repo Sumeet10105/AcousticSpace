@@ -43,5 +43,5 @@ if __name__ == "__main__":
     all_splits = [build_manifest(s) for s in ["train", "dev", "eval"]]
     full_df = pd.concat(all_splits, ignore_index=True)
     full_df.to_csv("dataset/manifest.csv", index=False)
-    print(f"Wrote {len(full_df)} entries to data/manifest.csv")
+    print(f"Wrote {len(full_df)} entries to dataset/manifest.csv")
     print(full_df["label"].value_counts())
