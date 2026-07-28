@@ -1,16 +1,25 @@
 """Dataset class for audio spoofing detection."""
 
+<<<<<<< HEAD
 import os
 import logging
 from typing import Callable, List, Optional, Tuple
+=======
+import logging
+import os
+from typing import Callable, Dict, List, Optional, Tuple
+>>>>>>> 01d9eff5e902e9e68f29504ca915f1ccf7624734
 
 import pandas as pd
 import torch
 from torch.utils.data import Dataset
 
 from src.preprocessing.audio_loader import load_audio
+<<<<<<< HEAD
 from src.preprocessing.padding import pad_or_truncate_to_duration
 from src.preprocessing.silence_removal import trim_silence
+=======
+>>>>>>> 01d9eff5e902e9e68f29504ca915f1ccf7624734
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +31,7 @@ class AudioSpoofingDataset(Dataset):
     1. Manifest CSV (``manifest_path``): columns ``filepath``, ``label``, ``split``
     2. ASVspoof protocol file (``data_path`` + ``metadata_path``): space-separated protocol
     """
+<<<<<<< HEAD
 
     def __init__(
         self,
@@ -34,13 +44,39 @@ class AudioSpoofingDataset(Dataset):
         target_sr: int = 16000,
         duration_seconds: float = 4.0,
         augment: bool = False,
+=======
+    Dataset class for audio spoofing detection.
+
+    Supports:
+    - ASVspoof protocol files
+    - CSV metadata files
+    - Lazy loading
+    - Optional transforms
+    - Speaker filtering
+    - Path validation
+    - CPU-friendly dataset subsampling
+    """
+
+    def __init__(
+        self,
+        data_path: str,
+        metadata_path: str,
+        split: str = "train",
+        transform: Optional[Callable] = None,
+        validate_paths: bool = True,
+        speakers: Optional[List[str]] = None,
+        max_samples: Optional[int] = None,
+>>>>>>> 01d9eff5e902e9e68f29504ca915f1ccf7624734
     ):
         self.data_path = data_path
         self.metadata_path = metadata_path
         self.manifest_path = manifest_path
         self.split = split
         self.transform = transform
+        self.validate_paths = validate_paths
+        self.speakers = speakers
         self.max_samples = max_samples
+<<<<<<< HEAD
         self.target_sr = target_sr
         self.duration_seconds = duration_seconds
         self.augment = augment
@@ -118,10 +154,165 @@ class AudioSpoofingDataset(Dataset):
         waveform = random_gain(waveform, min_gain=0.8, max_gain=1.2)
         waveform = add_gaussian_noise(waveform, noise_factor=0.005)
         return waveform
+=======
+
+        self.data: List[Dict] = []
+
+        self._load_metadata()
+
+    def _load_metadata(self) -> None:
+        """Load metadata from either CSV or ASVspoof protocol."""
+
+        if not os.path.exists(self.metadata_path):
+            raise FileNotFoundError(
+                f"Metadata file not found: {self.metadata_path}"
+            )
+
+        ext = os.path.splitext(self.metadata_path)[1].lower()
+
+        if ext == ".csv":
+            self._load_csv()
+
+        else:
+            self._load_protocol()
+
+        logger.info(
+            f"Loaded {len(self.data)} samples for split '{self.split}'."
+        )
+
+    def _load_protocol(self):
+        """Load official ASVspoof protocol."""
+
+        df = pd.read_csv(
+            self.metadata_path,
+            sep=r"\s+",
+            header=None,
+            names=[
+                "speaker_id",
+                "audio_file",
+                "unused",
+                "system_id",
+                "label",
+            ],
+        )
+
+        if self.max_samples:
+            df = df.sample(
+                n=min(self.max_samples, len(df)),
+                random_state=42,
+            )
+
+        for _, row in df.iterrows():
+
+            filepath = os.path.join(
+                self.data_path,
+                f"{row.audio_file}.flac",
+            )
+
+            if self.validate_paths and not os.path.exists(filepath):
+                continue
+
+            if (
+                self.speakers
+                and row.speaker_id not in self.speakers
+            ):
+                continue
+
+            self.data.append(
+                {
+                    "filepath": filepath,
+                    "label": 0
+                    if row.label.lower() == "bonafide"
+                    else 1,
+                    "speaker_id": row.speaker_id,
+                    "attack_type": row.system_id,
+                    "split": self.split,
+                }
+            )
+
+    def _load_csv(self):
+        """Load CSV manifest."""
+
+        df = pd.read_csv(self.metadata_path)
+
+        split_map = {
+            "train": "train",
+            "val": "dev",
+            "dev": "dev",
+            "test": "eval",
+            "eval": "eval",
+        }
+
+        target = split_map.get(
+            self.split.lower(),
+            self.split,
+        )
+
+        if "split" in df.columns:
+            df = df[
+                df["split"].str.lower() == target.lower()
+            ]
+
+        if self.speakers and "speaker_id" in df.columns:
+            df = df[
+                df["speaker_id"].isin(self.speakers)
+            ]
+
+        if self.max_samples:
+            df = df.sample(
+                n=min(self.max_samples, len(df)),
+                random_state=42,
+            )
+
+        label_map = {
+            "bonafide": 0,
+            "real": 0,
+            "spoof": 1,
+            "fake": 1,
+        }
+
+        for _, row in df.iterrows():
+
+            filepath = row["filepath"]
+
+            if not os.path.isabs(filepath):
+                filepath = os.path.join(
+                    self.data_path,
+                    filepath,
+                )
+
+            filepath = os.path.normpath(filepath)
+
+            if self.validate_paths and not os.path.exists(filepath):
+                continue
+
+            self.data.append(
+                {
+                    "filepath": filepath,
+                    "label": label_map.get(
+                        str(row["label"]).lower(),
+                        1,
+                    ),
+                    "speaker_id": row.get(
+                        "speaker_id",
+                        "unknown",
+                    ),
+                    "attack_type": row.get(
+                        "attack_type",
+                        "-",
+                    ),
+                    "split": row.get(
+                        "split",
+                        self.split,
+                    ),
+                }
+            )
+>>>>>>> 01d9eff5e902e9e68f29504ca915f1ccf7624734
 
     def __len__(self) -> int:
         return len(self.data)
 
+<<<<<<< HEAD
     def __getitem__(self, idx: int) -> Tuple[torch.Tensor, torch.Tensor]:
         filepath = self.data[idx]
         label = self.labels[idx]
@@ -139,8 +330,58 @@ class AudioSpoofingDataset(Dataset):
             logger.warning("Failed to load %s: %s. Using silent fallback.", filepath, exc)
             target_samples = int(self.target_sr * self.duration_seconds)
             waveform = torch.zeros(1, target_samples)
+=======
+    def __getitem__(
+        self,
+        idx: int,
+    ) -> Tuple[torch.Tensor, torch.Tensor]:
+
+        if idx >= len(self.data):
+            raise IndexError(
+                "Dataset index out of range."
+            )
+
+        sample = self.data[idx]
+
+        try:
+            waveform, _ = load_audio(
+                sample["filepath"],
+                target_sr=16000,
+                mono=True,
+            )
+
+        except Exception as e:
+
+            logger.warning(
+                f"Failed to load {sample['filepath']}: {e}"
+            )
+
+            waveform = torch.zeros(
+                1,
+                64000,
+            )
+>>>>>>> 01d9eff5e902e9e68f29504ca915f1ccf7624734
 
         if self.transform:
             waveform = self.transform(waveform)
 
+<<<<<<< HEAD
         return waveform, torch.tensor(label, dtype=torch.long)
+=======
+        return waveform, torch.tensor(
+            sample["label"],
+            dtype=torch.long,
+        )
+
+    def get_metadata(
+        self,
+        idx: int,
+    ) -> Dict:
+
+        if idx >= len(self.data):
+            raise IndexError(
+                "Dataset index out of range."
+            )
+
+        return self.data[idx]
+>>>>>>> 01d9eff5e902e9e68f29504ca915f1ccf7624734

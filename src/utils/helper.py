@@ -1,5 +1,6 @@
 import numpy as np
 import torch
+from typing import Any
 
 
 def to_tensor(data: np.ndarray) -> torch.Tensor:
