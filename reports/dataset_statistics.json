@@ -1,0 +1,232 @@
+{
+    "train": {
+        "num_protocol_entries": 25380,
+        "num_audio_files_found": 25380,
+        "class_distribution": {
+            "spoof": 22800,
+            "bonafide": 2580
+        },
+        "num_speakers": 20,
+        "speakers": [
+            "LA_0079",
+            "LA_0080",
+            "LA_0081",
+            "LA_0082",
+            "LA_0083",
+            "LA_0084",
+            "LA_0085",
+            "LA_0086",
+            "LA_0087",
+            "LA_0088",
+            "LA_0089",
+            "LA_0090",
+            "LA_0091",
+            "LA_0092",
+            "LA_0093",
+            "LA_0094",
+            "LA_0095",
+            "LA_0096",
+            "LA_0097",
+            "LA_0098"
+        ],
+        "system_distribution": {
+            "A01": 3800,
+            "A02": 3800,
+            "A03": 3800,
+            "A05": 3800,
+            "A04": 3800,
+            "A06": 3800,
+            "-": 2580
+        },
+        "corrupted_files": [],
+        "sample_rate_stats": {
+            "unique": [
+                16000
+            ]
+        },
+        "channels_stats": {
+            "unique": [
+                1
+            ]
+        },
+        "duration_stats": {
+            "mean": 3.44988884375,
+            "std": 1.466466922179106,
+            "min": 0.758125,
+            "max": 12.7785
+        }
+    },
+    "dev": {
+        "num_protocol_entries": 24844,
+        "num_audio_files_found": 24844,
+        "class_distribution": {
+            "spoof": 22296,
+            "bonafide": 2548
+        },
+        "num_speakers": 20,
+        "speakers": [
+            "LA_0069",
+            "LA_0070",
+            "LA_0071",
+            "LA_0072",
+            "LA_0073",
+            "LA_0074",
+            "LA_0075",
+            "LA_0076",
+            "LA_0077",
+            "LA_0078",
+            "LA_0099",
+            "LA_0100",
+            "LA_0101",
+            "LA_0102",
+            "LA_0103",
+            "LA_0104",
+            "LA_0105",
+            "LA_0106",
+            "LA_0107",
+            "LA_0108"
+        ],
+        "system_distribution": {
+            "A01": 3716,
+            "A02": 3716,
+            "A03": 3716,
+            "A05": 3716,
+            "A04": 3716,
+            "A06": 3716,
+            "-": 2548
+        },
+        "corrupted_files": [],
+        "sample_rate_stats": {
+            "unique": [
+                16000
+            ]
+        },
+        "channels_stats": {
+            "unique": [
+                1
+            ]
+        },
+        "duration_stats": {
+            "mean": 3.54079075,
+            "std": 1.4680090279957196,
+            "min": 0.749875,
+            "max": 9.7673125
+        }
+    },
+    "eval": {
+        "num_protocol_entries": 71237,
+        "num_audio_files_found": 71237,
+        "class_distribution": {
+            "spoof": 63882,
+            "bonafide": 7355
+        },
+        "num_speakers": 67,
+        "speakers": [
+            "LA_0039",
+            "LA_0014",
+            "LA_0040",
+            "LA_0022",
+            "LA_0031",
+            "LA_0030",
+            "LA_0001",
+            "LA_0033",
+            "LA_0002",
+            "LA_0048",
+            "LA_0005",
+            "LA_0018",
+            "LA_0023",
+            "LA_0042",
+            "LA_0037",
+            "LA_0038",
+            "LA_0043",
+            "LA_0047",
+            "LA_0009",
+            "LA_0025",
+            "LA_0035",
+            "LA_0015",
+            "LA_0024",
+            "LA_0017",
+            "LA_0029",
+            "LA_0028",
+            "LA_0044",
+            "LA_0011",
+            "LA_0020",
+            "LA_0026",
+            "LA_0016",
+            "LA_0057",
+            "LA_0012",
+            "LA_0004",
+            "LA_0006",
+            "LA_0021",
+            "LA_0007",
+            "LA_0008",
+            "LA_0010",
+            "LA_0041",
+            "LA_0061",
+            "LA_0046",
+            "LA_0032",
+            "LA_0013",
+            "LA_0027",
+            "LA_0045",
+            "LA_0068",
+            "LA_0036",
+            "LA_0064",
+            "LA_0019",
+            "LA_0003",
+            "LA_0034",
+            "LA_0060",
+            "LA_0058",
+            "LA_0051",
+            "LA_0049",
+            "LA_0059",
+            "LA_0066",
+            "LA_0056",
+            "LA_0055",
+            "LA_0063",
+            "LA_0052",
+            "LA_0065",
+            "LA_0067",
+            "LA_0054",
+            "LA_0050",
+            "LA_0053"
+        ],
+        "system_distribution": {
+            "-": 7355,
+            "A11": 4914,
+            "A14": 4914,
+            "A16": 4914,
+            "A09": 4914,
+            "A13": 4914,
+            "A12": 4914,
+            "A18": 4914,
+            "A15": 4914,
+            "A08": 4914,
+            "A17": 4914,
+            "A10": 4914,
+            "A07": 4914,
+            "A19": 4914
+        },
+        "corrupted_files": [],
+        "sample_rate_stats": {
+            "unique": [
+                16000
+            ]
+        },
+        "channels_stats": {
+            "unique": [
+                1
+            ]
+        },
+        "duration_stats": {
+            "mean": 3.11873284375,
+            "std": 1.5193512675943075,
+            "min": 0.69725,
+            "max": 10.823375
+        }
+    },
+    "duplicate_check": {
+        "num_files_checked": 1000,
+        "num_duplicates_found": 0,
+        "duplicates": []
+    }
+}

@@ -1,218 +1,194 @@
-# Byte-compiled / optimized / DLL files
+# ==============================================================================
+# AcousticSpace - Production-Ready Git Ignore Configuration
+# Custom-built specifically for this repository's structure and technologies.
+# ==============================================================================
+
+# ==========================================
+# 1. Source Code & Configuration Protection
+# ==========================================
+# Ensure core python modules, configs, tests, notebooks, and docs are NEVER ignored.
+!/.gitignore
+!/README.md
+!/LICENSE
+!/requirements.txt
+!/pyproject.toml
+!/Dockerfile
+!/docker-compose.yml
+!/configs/
+!/configs/**
+!/docs/
+!/docs/**
+!/src/
+!/src/**
+!/tests/
+!/tests/**
+!/notebooks/
+!/notebooks/**
+
+# ==========================================
+# 2. Python & Runtime Caches
+# ==========================================
 __pycache__/
-*.py[codz]
+*.py[cod]
 *$py.class
-
-# C extensions
 *.so
-
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# PyInstaller
-#   Usually these files are written by a python script from a template
-#   before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
+.pytest_cache/
 .coverage
 .coverage.*
-.cache
-nosetests.xml
+htmlcov/
 coverage.xml
-*.cover
-*.py.cover
-.hypothesis/
-.pytest_cache/
-cover/
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-.pybuilder/
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# IPython
-profile_default/
-ipython_config.py
-
-# pyenv
-#   For a library or package, you might want to ignore these files since the code is
-#   intended to run in multiple environments; otherwise, check them in:
-# .python-version
-
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-# Pipfile.lock
-
-# UV
-#   Similar to Pipfile.lock, it is generally recommended to include uv.lock in version control.
-#   This is especially recommended for binary packages to ensure reproducibility, and is more
-#   commonly ignored for libraries.
-# uv.lock
-
-# poetry
-#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
-#   This is especially recommended for binary packages to ensure reproducibility, and is more
-#   commonly ignored for libraries.
-#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
-# poetry.lock
-# poetry.toml
-
-# pdm
-#   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
-#   pdm recommends including project-wide configuration in pdm.toml, but excluding .pdm-python.
-#   https://pdm-project.org/en/latest/usage/project/#working-with-version-control
-# pdm.lock
-# pdm.toml
-.pdm-python
-.pdm-build/
-
-# pixi
-#   Similar to Pipfile.lock, it is generally recommended to include pixi.lock in version control.
-# pixi.lock
-#   Pixi creates a virtual environment in the .pixi directory, just like venv module creates one
-#   in the .venv directory. It is recommended not to include this directory in version control.
-.pixi
-
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
-__pypackages__/
-
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
-
-# Redis
-*.rdb
-*.aof
+.cache/
+.tox/
+.nox/
+.mypy_cache/
+.pyre/
+.pytype/
+.ruff_cache/
 *.pid
+instance/
 
-# RabbitMQ
-mnesia/
-rabbitmq/
-rabbitmq-data/
-
-# ActiveMQ
-activemq-data/
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.env
-.envrc
-.venv
-env/
+# ==========================================
+# 3. Virtual Environments
+# ==========================================
+.venv/
 venv/
+env/
 ENV/
 env.bak/
 venv.bak/
 
-# Spyder project settings
-.spyderproject
-.spyproject
+# ==========================================
+# 4. Environment Variables & Secrets
+# ==========================================
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
 
-# Rope project settings
-.ropeproject
+# ==========================================
+# 5. IDE & Operating System Files
+# ==========================================
+.vscode/
+.idea/
+*.code-workspace
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+*.bak
+*.old
+*.orig
+*.tmp
+temp/
+tmp/
 
-# mkdocs documentation
-/site
+# ==========================================
+# 6. Jupyter Notebook Checkpoints
+# ==========================================
+.ipynb_checkpoints/
 
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
+# ==========================================
+# 7. Dataset Directory Structure
+# ==========================================
+# Ignore all files inside the datasets subdirectories, but keep the folder structure using .gitkeep.
+datasets/raw/*
+!datasets/raw/.gitkeep
 
-# Pyre type checker
-.pyre/
+datasets/processed/*
+!datasets/processed/.gitkeep
 
-# pytype static type analyzer
-.pytype/
+datasets/cache/*
+!datasets/cache/.gitkeep
 
-# Cython debug symbols
-cython_debug/
+datasets/tmp/*
+!datasets/tmp/.gitkeep
 
-# PyCharm
-#   JetBrains specific template is maintained in a separate JetBrains.gitignore that can
-#   be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
-#   and can be added to the global gitignore or merged into this file.  For a more nuclear
-#   option (not recommended) you can uncomment the following to ignore the entire idea folder.
-# .idea/
+datasets/metadata/*
+!datasets/metadata/.gitkeep
 
-# Abstra
-#   Abstra is an AI-powered process automation framework.
-#   Ignore directories containing user credentials, local state, and settings.
-#   Learn more at https://abstra.io/docs
-.abstra/
+# Ignore specific large dataset downloads
+datasets/raw/ASVspoof2019/
+datasets/raw/ASVspoof2021/
+datasets/raw/LA/
+datasets/raw/PA/
+datasets/raw/DF/
 
-# Visual Studio Code
-#   Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore 
-#   that can be found at https://github.com/github/gitignore/blob/main/Global/VisualStudioCode.gitignore
-#   and can be added to the global gitignore or merged into this file. However, if you prefer, 
-#   you could uncomment the following to ignore the entire vscode folder
-# .vscode/
-# Temporary file for partial code execution
-tempCodeRunnerFile.py
+# Ignore audio processed subfolders
+datasets/processed/audio/
+datasets/processed/features/
+datasets/processed/mfcc/
+datasets/processed/mels/
+datasets/processed/spectrograms/
+datasets/processed/waveforms/
 
-# Ruff stuff:
-.ruff_cache/
+# ==========================================
+# 8. Machine Learning Models & Checkpoints
+# ==========================================
+# Models, weights, and scaler checkpoints should not be committed to Git due to size and dynamic nature.
+# Track directories only, ignore files.
+models/*
+!models/.gitkeep
 
-# PyPI configuration file
-.pypirc
+best_model/*
+!best_model/.gitkeep
 
-# Marimo
-marimo/_static/
-marimo/_lsp/
-__marimo__/
+saved_models/checkpoints/*
+!saved_models/checkpoints/.gitkeep
 
-# Streamlit
-.streamlit/secrets.toml
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.onnx
+*.joblib
+*.pkl
+*.pickle
+*.safetensors
+
+# ==========================================
+# 9. Machine Learning Cache & Experiments
+# ==========================================
+.huggingface/
+hf_cache/
+.cache/huggingface/
+transformers_cache/
+torch_cache/
+*.pt.tmp
+features_cache/
+feature_cache/
+runs/
+tensorboard/
+experiments/
+mlruns/
+wandb/
+
+# ==========================================
+# 10. Generated Visualizations & Reports
+# ==========================================
+# Keep reports and plots directories tracked via .gitkeep but ignore the generated files.
+reports/*
+!reports/.gitkeep
+
+plots/*
+!plots/.gitkeep
+
+figures/*
+!figures/.gitkeep
+
+# ==========================================
+# 11. Docker & Deployments
+# ==========================================
+docker-compose.override.yml
+
+# ==========================================
+# 12. Databases & Frontend Caches
+# ==========================================
+*.sqlite3
+node_modules/
+.next/
+out/
+dist/
