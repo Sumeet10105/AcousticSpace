@@ -1,40 +1,95 @@
-"""Tests for dataset module."""
-
-import pytest
-import numpy as np
-
-
 class TestDataset:
     """Dataset tests."""
-    
-    def test_dataset_length(self):
-        """Test dataset length."""
-        from src.data.dataset import AudioSpoofingDataset
-        import os
-        
-        # Test on dev protocol
-        data_path = "d:/Infotact_Solutions/AcousticSpace/datasets/LA/LA/ASVspoof2019_LA_dev/flac"
-        metadata_path = "d:/Infotact_Solutions/AcousticSpace/datasets/LA/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.dev.trl.txt"
-        
-        # Load small dataset (e.g. 5 samples)
-        dataset = AudioSpoofingDataset(data_path, metadata_path, split='dev', max_samples=5)
-        
-        assert len(dataset) == 5
-        assert len(dataset.labels) == 5
-        assert len(dataset.speaker_ids) == 5
-        
-    def test_dataset_getitem(self):
-        """Test dataset item retrieval."""
-        from src.data.dataset import AudioSpoofingDataset
-        import torch
-        
-        data_path = "d:/Infotact_Solutions/AcousticSpace/datasets/LA/LA/ASVspoof2019_LA_dev/flac"
-        metadata_path = "d:/Infotact_Solutions/AcousticSpace/datasets/LA/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.dev.trl.txt"
-        
-        dataset = AudioSpoofingDataset(data_path, metadata_path, split='dev', max_samples=2)
-        waveform, label = dataset[0]
-        
-        assert isinstance(waveform, torch.Tensor)
-        assert isinstance(label, torch.Tensor)
-        assert label.item() in [0, 1]
 
+    def test_dataset_loading_and_splits(self, temp_dataset):
+        """Test dataset split filtering."""
+        temp_dir, manifest_path, _ = temp_dataset
+
+        dataset_train = AudioSpoofingDataset(
+            data_path=temp_dir,
+            metadata_path=manifest_path,
+            split="train",
+            validate_paths=True,
+        )
+
+        assert len(dataset_train) == 2
+
+        dataset_val = AudioSpoofingDataset(
+            data_path=temp_dir,
+            metadata_path=manifest_path,
+            split="val",
+            validate_paths=True,
+        )
+
+        assert len(dataset_val) == 1
+
+        dataset_test = AudioSpoofingDataset(
+            data_path=temp_dir,
+            metadata_path=manifest_path,
+            split="test",
+            validate_paths=True,
+        )
+
+        assert len(dataset_test) == 1
+
+    def test_dataset_getitem(self, temp_dataset):
+        """Test loading a dataset sample."""
+        temp_dir, manifest_path, _ = temp_dataset
+
+        dataset = AudioSpoofingDataset(
+            data_path=temp_dir,
+            metadata_path=manifest_path,
+            split="train",
+            validate_paths=True,
+        )
+
+        waveform, label = dataset[0]
+
+        assert isinstance(waveform, torch.Tensor)
+        assert waveform.shape[0] == 1
+        assert waveform.shape[1] == 16000
+        assert label in [0, 1]
+
+    def test_max_samples(self, temp_dataset):
+        """Test max_samples parameter."""
+        temp_dir, manifest_path, _ = temp_dataset
+
+        dataset = AudioSpoofingDataset(
+            data_path=temp_dir,
+            metadata_path=manifest_path,
+            split="train",
+            max_samples=1,
+            validate_paths=True,
+        )
+
+        assert len(dataset) == 1
+
+    def test_speaker_filtering(self, temp_dataset):
+        """Test filtering by speaker IDs."""
+        temp_dir, manifest_path, _ = temp_dataset
+
+        dataset = AudioSpoofingDataset(
+            data_path=temp_dir,
+            metadata_path=manifest_path,
+            split="train",
+            speakers=["SP_001"],
+            validate_paths=True,
+        )
+
+        assert len(dataset) == 2
+
+    def test_corrupted_audio_fallback(self, temp_dataset):
+        """Ensure corrupted audio files don't crash loading."""
+        temp_dir, manifest_path, _ = temp_dataset
+
+        dataset = AudioSpoofingDataset(
+            data_path=temp_dir,
+            metadata_path=manifest_path,
+            split="train",
+            validate_paths=True,
+        )
+
+        waveform, label = dataset[1]
+
+        assert isinstance(waveform, torch.Tensor)
+        assert label in [0, 1]
