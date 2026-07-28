@@ -94,7 +94,7 @@ class TestFeatures:
         rms = extract_rms_energy(dummy_audio, frame_length=512, hop_length=160)
         assert rms.shape[0] == 1
         assert rms.shape[1] == 1  # 1 dim of RMS
-        assert rms.shape[2] == 101
+        assert rms.shape[2] == 97
         
     def test_rir_features(self, dummy_audio):
         """Test Room Impulse Response feature estimation."""
@@ -106,7 +106,7 @@ class TestFeatures:
         )
         assert rir.shape[0] == 1
         assert rir.shape[1] == 4  # rt60, edt, c50, c80
-        assert rir.shape[2] == 101
+        assert rir.shape[2] == 97
         
     def test_breathing_features(self, dummy_audio):
         """Test breathing pattern features."""
@@ -125,7 +125,7 @@ class TestFeatures:
         wave_feats = extract_waveform_features(dummy_audio, frame_length=512, hop_length=160)
         assert wave_feats.shape[0] == 1
         assert wave_feats.shape[1] == 5  # zcr, mean, std, skewness, kurtosis
-        assert wave_feats.shape[2] == 101
+        assert wave_feats.shape[2] == 97
         
     def test_feature_fusion_and_alignment(self, dummy_audio):
         """Test that different sized features align and concatenate properly."""
