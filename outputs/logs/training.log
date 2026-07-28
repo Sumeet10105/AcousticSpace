@@ -1,0 +1,12 @@
+2026-07-27 12:29:20,091 - __main__ - INFO - Initializing AcousticSpace Training Pipeline...
+2026-07-27 12:29:20,092 - __main__ - INFO - Loaded config: configs/config.yaml
+2026-07-27 12:29:20,092 - __main__ - INFO - Loaded training config: configs/train.yaml
+2026-07-27 12:29:20,092 - __main__ - INFO - Loaded model config: configs/model.yaml
+2026-07-27 12:29:20,092 - __main__ - WARNING - CUDA is not available. Falling back to CPU training.
+2026-07-27 12:29:20,092 - __main__ - ERROR - Metadata manifest not found at ./datasets/metadata\manifest.csv. Please generate it first.
+2026-07-27 22:25:40,618 - __main__ - INFO - Initializing AcousticSpace Training Pipeline...
+2026-07-27 22:25:40,618 - __main__ - INFO - Loaded config: configs/config.yaml
+2026-07-27 22:25:40,618 - __main__ - INFO - Loaded training config: configs/train.yaml
+2026-07-27 22:25:40,618 - __main__ - INFO - Loaded model config: configs/model.yaml
+2026-07-27 22:25:40,618 - __main__ - WARNING - CUDA is not available. Falling back to CPU training.
+2026-07-27 22:25:40,619 - __main__ - ERROR - Metadata manifest not found at ./datasets/metadata\manifest.csv. Please generate it first.
