@@ -12,7 +12,6 @@ from src.feature_extraction import extract_rir_features
 manifest_path = project_root / "dataset" / "manifest.csv"
 df = pd.read_csv(manifest_path)
 
-
 records = []
 for _, row in tqdm(df.iterrows(), total=len(df), desc="Extracting features"):
     try:
@@ -26,7 +25,18 @@ for _, row in tqdm(df.iterrows(), total=len(df), desc="Extracting features"):
         print(f"Failed on {row['filepath']}: {e}")
 
 features_df = pd.DataFrame(records)
+
+# Filter out physically implausible outliers from unstable estimation
+before = len(features_df)
+features_df = features_df[
+    (features_df["t60"] <= 10) &
+    (features_df["decay_slope"] >= -100)
+]
+after = len(features_df)
+print(f"Filtered {before - after} outlier rows ({before} -> {after})")
+
 out_path = project_root / "dataset" / "rir_features.csv"
 features_df.to_csv(out_path, index=False)
 print(f"Saved {len(features_df)} feature rows to {out_path}")
+
 
