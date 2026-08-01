@@ -4,7 +4,7 @@ def extract_rir_features(y, sr):
     """
     y: waveform (from your load_audio)
     sr: sample rate
-    Returns: dict with T60 and decay slope
+    Returns: dict with T60, decay slope, and DRR
     """
     # 1. Compute the energy decay curve (Schroeder integration)
     energy = y ** 2
@@ -32,8 +32,20 @@ def extract_rir_features(y, sr):
     except (TypeError, ValueError):
         slope = np.nan
 
-    # 4. Return as a dict
+    # 4. DRR - Direct-to-Reverberant Ratio
+    # "Direct" = energy in the first 5ms (the direct sound arrival)
+    # "Reverberant" = energy in everything after that
+    try:
+        direct_samples = int(0.005 * sr)   # first 5ms
+        direct_energy = np.sum(energy[:direct_samples])
+        reverb_energy = np.sum(energy[direct_samples:])
+        drr = 10 * np.log10((direct_energy + 1e-10) / (reverb_energy + 1e-10))
+    except Exception:
+        drr = np.nan
+
+    # 5. Return as a dict
     return {
         "t60": t60,
-        "decay_slope": slope
+        "decay_slope": slope,
+        "drr": drr
     }
