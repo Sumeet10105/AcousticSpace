@@ -96,3 +96,11 @@ feat_df_clean = feat_df[
 print(f"Kept {len(feat_df_clean)} of {len(feat_df)} rows")
 
 feat_df_clean.to_csv(project_root / "dataset" / "rir_features.csv", index=False)
+
+from src.spectral_features import extract_log_mel
+
+mel_real = extract_log_mel(y_real, sr_real)
+mel_fake = extract_log_mel(y_fake, sr_fake)
+
+print("Real mel shape:", mel_real.shape)
+print("Fake mel shape:", mel_fake.shape)
