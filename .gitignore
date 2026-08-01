@@ -219,3 +219,5 @@ __marimo__/
 
 # Raw dataset (large audio files, not tracked)
 dataset/raw/
+
+dataset/mel_features.npz
