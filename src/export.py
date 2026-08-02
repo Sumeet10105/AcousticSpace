@@ -38,41 +38,6 @@ def export_to_torchscript(
         raise e
 
 
-def export_to_onnx(
-    model: nn.Module, 
-    dummy_input: torch.Tensor, 
-    save_path: str,
-    opset_version: int = 14
-) -> None:
-    """Exports a model to ONNX format.
-
-    Args:
-        model: Loaded PyTorch model instance.
-        dummy_input: Sample input tensor.
-        save_path: Destination path for the .onnx file.
-        opset_version: ONNX opset version (default: 14).
-    """
-    model.eval()
-    try:
-        if os.path.dirname(save_path):
-            os.makedirs(os.path.dirname(save_path), exist_ok=True)
-            
-        torch.onnx.export(
-            model,
-            dummy_input,
-            save_path,
-            export_params=True,
-            opset_version=opset_version,
-            do_constant_folding=True,
-            input_names=['input'],
-            output_names=['output'],
-            dynamic_axes={'input': {0: 'batch_size'}, 'output': {0: 'batch_size'}}
-        )
-        logger.info(f"Model successfully exported to ONNX at {save_path}.")
-    except Exception as e:
-        logger.error(f"ONNX export failed: {str(e)}")
-        raise e
-
 
 def export_to_fp16(
     model: nn.Module, 

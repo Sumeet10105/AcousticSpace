@@ -45,7 +45,7 @@ class TestCLIScripts:
             sys.executable,
             "training/export_model.py",
             "--model_path", "nonexistent.pt",
-            "--export_format", "onnx"
+            "--export_format", "torchscript"
         ]
         res = subprocess.run(cmd, capture_output=True, text=True)
         assert res.returncode == 1
