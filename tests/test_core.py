@@ -62,6 +62,12 @@ class TestCoreModules:
             # Log something
             logger.info("Test log statement")
             assert os.path.exists(log_file)
+            
+            # Close handlers to release file lock on Windows
+            for handler in logger.handlers[:]:
+                handler.close()
+                logger.removeHandler(handler)
+                
             with open(log_file, "r") as f:
                 content = f.read()
             assert "Test log statement" in content

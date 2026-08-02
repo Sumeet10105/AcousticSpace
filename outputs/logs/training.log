@@ -22,3 +22,21 @@
 2026-08-02 08:46:23,260 - __main__ - INFO - Loaded model config: configs/model.yaml
 2026-08-02 08:46:23,260 - __main__ - WARNING - CUDA is not available. Falling back to CPU training.
 2026-08-02 08:46:23,260 - __main__ - ERROR - Metadata manifest not found at ./datasets/metadata\manifest.csv. Please generate it first.
+2026-08-02 08:58:29,300 - __main__ - INFO - Initializing AcousticSpace Training Pipeline...
+2026-08-02 08:58:29,300 - __main__ - INFO - Loaded config: configs/config.yaml
+2026-08-02 08:58:29,300 - __main__ - INFO - Loaded training config: configs/train.yaml
+2026-08-02 08:58:29,300 - __main__ - INFO - Loaded model config: configs/model.yaml
+2026-08-02 08:58:29,300 - __main__ - WARNING - CUDA is not available. Falling back to CPU training.
+2026-08-02 08:58:29,301 - __main__ - ERROR - Metadata manifest not found at ./datasets/metadata\manifest.csv. Please generate it first.
+2026-08-02 09:01:31,803 - __main__ - INFO - Initializing AcousticSpace Training Pipeline...
+2026-08-02 09:01:31,803 - __main__ - INFO - Loaded config: configs/config.yaml
+2026-08-02 09:01:31,803 - __main__ - INFO - Loaded training config: configs/train.yaml
+2026-08-02 09:01:31,803 - __main__ - INFO - Loaded model config: configs/model.yaml
+2026-08-02 09:01:31,803 - __main__ - WARNING - CUDA is not available. Falling back to CPU training.
+2026-08-02 09:01:31,803 - __main__ - ERROR - Metadata manifest not found at ./datasets/metadata\manifest.csv. Please generate it first.
+2026-08-02 09:03:06,258 - __main__ - INFO - Initializing AcousticSpace Training Pipeline...
+2026-08-02 09:03:06,259 - __main__ - INFO - Loaded config: configs/config.yaml
+2026-08-02 09:03:06,259 - __main__ - INFO - Loaded training config: configs/train.yaml
+2026-08-02 09:03:06,259 - __main__ - INFO - Loaded model config: configs/model.yaml
+2026-08-02 09:03:06,259 - __main__ - WARNING - CUDA is not available. Falling back to CPU training.
+2026-08-02 09:03:06,259 - __main__ - ERROR - Metadata manifest not found at ./datasets/metadata\manifest.csv. Please generate it first.
