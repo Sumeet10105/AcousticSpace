@@ -166,6 +166,7 @@ class TestDataset:
             metadata_path=manifest_path,
             split="train",
             validate_paths=True,
+            duration_seconds=1.0,
         )
 
         waveform, label = dataset[0]

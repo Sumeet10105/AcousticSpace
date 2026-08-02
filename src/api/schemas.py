@@ -22,6 +22,7 @@ class PredictionResponse(BaseModel):
     latency_ms: Optional[float] = None
     model_name: Optional[str] = None
     feature_importance: Optional[List[float]] = None
+    explanation: Optional[str] = Field(None, description="Detailed explanation of the prediction decisions")
 
 
 class HealthResponse(BaseModel):

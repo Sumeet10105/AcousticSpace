@@ -40,7 +40,7 @@ def mock_best_model(tmp_path, monkeypatch):
     best_dir.mkdir(parents=True)
 
     model = RandomForestClassifier(n_estimators=5, random_state=42)
-    features = np.random.randn(20, 64 * 100)
+    features = np.random.randn(20, 113 * 100)
     labels = np.random.randint(0, 2, size=20)
     model.fit(features, labels)
 

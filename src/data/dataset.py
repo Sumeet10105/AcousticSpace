@@ -56,7 +56,10 @@ class AudioSpoofingDataset(Dataset):
         if manifest_path is not None:
             self._load_from_manifest(manifest_path, split)
         elif data_path is not None and metadata_path is not None:
-            self._load_from_protocol(data_path, metadata_path)
+            if str(metadata_path).lower().endswith(".csv"):
+                self._load_from_manifest(metadata_path, split)
+            else:
+                self._load_from_protocol(data_path, metadata_path)
         else:
             raise ValueError(
                 "Provide either manifest_path or both data_path and metadata_path."

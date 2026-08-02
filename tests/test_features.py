@@ -16,6 +16,7 @@ from src.features import (
     align_temporal_dimension,
     standardize_features,
     fuse_features,
+    generate_spoof_explanation,
 )
 
 
@@ -149,3 +150,18 @@ class TestFeatures:
         assert std_feats.shape == fused_50.shape
         # mean should be ~0, std should be ~1
         assert torch.allclose(torch.mean(std_feats, dim=2), torch.zeros(1, 17), atol=1e-3)
+        
+    def test_explanation_generation(self):
+        """Test generating detailed textual audit explanations."""
+        # 113 features, 100 frames
+        fused_raw = torch.zeros(1, 113, 100)
+        
+        # Test Fake explanation
+        explanation_fake = generate_spoof_explanation(fused_raw, "FAKE", 0.95)
+        assert "Classified as FAKE" in explanation_fake
+        assert "confidence: 95.00%" in explanation_fake
+        
+        # Test Real explanation
+        explanation_real = generate_spoof_explanation(fused_raw, "REAL", 0.99)
+        assert "Classified as REAL" in explanation_real
+        assert "confidence: 99.00%" in explanation_real
