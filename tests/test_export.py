@@ -8,7 +8,6 @@ import torch
 from src.models import CRNN
 from src.export import (
     export_to_torchscript,
-    export_to_onnx,
     export_to_fp16,
     quantize_model_dynamic,
 )
@@ -34,19 +33,7 @@ class TestModelExport:
                 out = traced(dummy_input)
             assert out.shape == (1, 2)
             
-    def test_onnx_export(self):
-        """Test exporting model to ONNX."""
-        model = CRNN(num_classes=2, n_mels=64)
-        dummy_input = torch.randn(1, 64, 100)
-        
-        with tempfile.TemporaryDirectory() as temp_dir:
-            save_path = os.path.join(temp_dir, "model.onnx")
-            export_to_onnx(model, dummy_input, save_path)
-            
-            assert os.path.exists(save_path)
-            # File should not be empty
-            assert os.path.getsize(save_path) > 1024
-            
+
     def test_fp16_export(self):
         """Test saving model weights in half-precision (FP16)."""
         model = CRNN(num_classes=2, n_mels=64)

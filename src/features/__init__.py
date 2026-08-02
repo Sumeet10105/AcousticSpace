@@ -11,6 +11,7 @@ from src.features.breathing import extract_breathing_features
 from src.features.waveform_features import extract_waveform_features
 from src.features.feature_utils import align_temporal_dimension, standardize_features
 from src.features.feature_fusion import fuse_features
+from src.features.explanation import generate_spoof_explanation
 
 __all__ = [
     "compute_spectrogram",
@@ -25,4 +26,5 @@ __all__ = [
     "align_temporal_dimension",
     "standardize_features",
     "fuse_features",
+    "generate_spoof_explanation",
 ]

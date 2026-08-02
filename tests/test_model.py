@@ -83,3 +83,23 @@ class TestModels:
                 out_orig = model(dummy_batch)
                 out_loaded = new_model(dummy_batch)
             assert torch.allclose(out_orig, out_loaded, atol=1e-4)
+
+    def test_evaluator_evaluate(self):
+        """Test model evaluation metric calculation using Evaluator."""
+        from src.models.evaluator import Evaluator
+        from torch.utils.data import TensorDataset, DataLoader
+        
+        model = CRNN(num_classes=2, n_mels=64)
+        evaluator = Evaluator(model, device="cpu")
+        
+        x_dummy = torch.randn(2, 64, 100)
+        y_dummy = torch.tensor([0, 1])
+        dataset = TensorDataset(x_dummy, y_dummy)
+        loader = DataLoader(dataset, batch_size=2)
+        
+        metrics = evaluator.evaluate(loader)
+        assert "accuracy" in metrics
+        assert "eer" in metrics
+        assert "auc" in metrics
+        assert "confusion_matrix" in metrics
+        assert len(metrics["y_true"]) == 2

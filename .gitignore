@@ -191,4 +191,4 @@ docker-compose.override.yml
 node_modules/
 .next/
 out/
-dist/
+dist/

@@ -166,6 +166,7 @@ class TestDataset:
             metadata_path=manifest_path,
             split="train",
             validate_paths=True,
+            duration_seconds=1.0,
         )
 
         waveform, label = dataset[0]
@@ -215,3 +216,55 @@ class TestDataset:
 
         assert isinstance(waveform, torch.Tensor)
         assert label.item() in [0, 1]
+
+    def test_audio_validator_functions(self):
+        """Test audio validators in src/data/validator.py."""
+        from src.data.validator import validate_audio_file, validate_audio_data, validate_uploaded_file
+        import numpy as np
+        
+        assert not validate_audio_file(None)
+        assert not validate_audio_file("")
+        assert not validate_audio_file("nonexistent_file.wav")
+        
+        assert not validate_audio_data(None)
+        assert not validate_audio_data("invalid_type")
+        assert not validate_audio_data(torch.randn(5))
+        assert not validate_audio_data(torch.tensor([[float("nan")]]))
+        
+        assert not validate_audio_data(np.array([]))
+        assert not validate_audio_data(np.array([[float("inf")]]))
+        assert validate_audio_data(np.array([[0.1, 0.2]]))
+        
+        ok, msg = validate_uploaded_file("", b"")
+        assert not ok
+        assert msg == "Missing filename"
+        
+        ok, msg = validate_uploaded_file("test.wav", b"")
+        assert not ok
+        assert msg == "Empty file"
+        
+        ok, msg = validate_uploaded_file("test.wav", b"a" * (51 * 1024 * 1024), max_size_mb=50.0)
+        assert not ok
+        assert "exceeds" in msg
+        
+        ok, msg = validate_uploaded_file("test.txt", b"abc")
+        assert not ok
+        assert "Unsupported" in msg
+        
+        ok, msg = validate_uploaded_file("test.wav", b"abc")
+        assert ok
+
+    def test_data_splitter_edge_cases(self):
+        """Test splitter.py fallback cases and list splitting."""
+        from src.data.splitter import train_val_test_split, speaker_aware_split
+        import pandas as pd
+        
+        lst = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        train_l, val_l, test_l = train_val_test_split(lst, 0.8, 0.1)
+        assert len(train_l) == 8
+        assert len(val_l) == 1
+        assert len(test_l) == 1
+        
+        df = pd.DataFrame({"dummy": [1, 2, 3]})
+        train_d, val_d, test_d = speaker_aware_split(df, speaker_col="nonexistent")
+        assert len(train_d) == 2

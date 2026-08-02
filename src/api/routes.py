@@ -9,6 +9,7 @@ import torch
 from fastapi import APIRouter, File, HTTPException, UploadFile
 
 from src.data.validator import validate_uploaded_file
+from src.features import generate_spoof_explanation
 from src.models import AudioSpectrogramTransformer, CRNN, ResNetCNN
 from src.single_predict import predict_single_file
 
@@ -117,6 +118,9 @@ async def predict(file: UploadFile = File(...)):
         if importance is not None:
             importance = importance.tolist()
 
+        fused_raw = result.get("fused_raw")
+        explanation = generate_spoof_explanation(fused_raw, result["prediction"], float(result["confidence"]))
+
         return PredictionResponse(
             prediction=pred_label,
             confidence=float(result["confidence"]),
@@ -125,6 +129,7 @@ async def predict(file: UploadFile = File(...)):
             latency_ms=float(result.get("latency_ms", 0.0)),
             model_name=config.get("model_name"),
             feature_importance=importance,
+            explanation=explanation,
         )
     except HTTPException:
         raise

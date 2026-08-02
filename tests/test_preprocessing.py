@@ -126,13 +126,37 @@ class TestPreprocessing:
         assert padded_wrap.shape[1] == 2500
         assert torch.all(padded_wrap[0, 1000:2000] == 1.0)
         
+        # Test reflect padding (pad_len < current_samples)
+        padded_reflect = pad_or_truncate(waveform, target_samples=1800, mode="reflect")
+        assert padded_reflect.shape[1] == 1800
+        
+        # Test reflect padding (pad_len >= current_samples) fallback
+        padded_reflect_large = pad_or_truncate(waveform, target_samples=3000, mode="reflect")
+        assert padded_reflect_large.shape[1] == 3000
+        
+        # Test fallback / unknown mode
+        padded_fallback = pad_or_truncate(waveform, target_samples=1500, mode="unknown_mode")
+        assert padded_fallback.shape[1] == 1500
+        
+        # Test pad_or_truncate_to_duration
+        padded_dur = pad_or_truncate_to_duration(waveform, sample_rate=1000, duration_seconds=2.0)
+        assert padded_dur.shape[1] == 2000
+        
     def test_segmentation(self):
         """Test wave segmentation."""
         waveform = torch.randn(1, 10000)
         segmented = segment_waveform(waveform, segment_samples=2000, hop_samples=1000)
-        # 10000 length with 2000 width and 1000 hop:
-        # starts at: 0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000. Total 9 segments.
         assert list(segmented.shape) == [9, 1, 2000]
+        
+        # Test segmentation when waveform is shorter than segment_samples
+        short_wave = torch.randn(1, 1000)
+        segmented_short = segment_waveform(short_wave, segment_samples=2000, hop_samples=1000)
+        assert segmented_short.shape[0] == 1
+        assert segmented_short.shape[2] == 2000
+        
+        # Test segment_waveform_by_time
+        seg_time = segment_waveform_by_time(waveform, sample_rate=16000, segment_seconds=0.1, hop_seconds=0.05)
+        assert seg_time.ndim == 3
         
     def test_augmentations(self):
         """Test augmentations (noise, gain, masks, mixup)."""

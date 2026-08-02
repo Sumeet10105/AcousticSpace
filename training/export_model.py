@@ -18,7 +18,6 @@ from src.models import (
 )
 from src.export import (
     export_to_torchscript,
-    export_to_onnx,
     export_to_fp16,
     quantize_model_dynamic,
 )
@@ -28,8 +27,8 @@ def main():
     parser = argparse.ArgumentParser(description="Export model for deployment")
     parser.add_argument("--model_path", type=str, required=True,
                         help="Path to model checkpoint")
-    parser.add_argument("--export_format", type=str, default="onnx",
-                        choices=["onnx", "torchscript", "fp16", "quantized"],
+    parser.add_argument("--export_format", type=str, default="torchscript",
+                        choices=["torchscript", "fp16", "quantized"],
                         help="Export format")
     parser.add_argument("--save_path", type=str, default=None,
                         help="Output path for the exported model")
@@ -86,9 +85,7 @@ def main():
     save_path = args.save_path
     if not save_path:
         filename = f"{model_name.lower()}_exported"
-        if args.export_format == "onnx":
-            save_path = os.path.join(outputs_dir, f"{filename}.onnx")
-        elif args.export_format == "torchscript":
+        if args.export_format == "torchscript":
             save_path = os.path.join(outputs_dir, f"{filename}_traced.pt")
         elif args.export_format == "fp16":
             save_path = os.path.join(outputs_dir, f"{filename}_fp16.pt")
@@ -101,9 +98,7 @@ def main():
     
     logger.info(f"Exporting model to {args.export_format} format...")
     try:
-        if args.export_format == "onnx":
-            export_to_onnx(model, dummy_input, save_path)
-        elif args.export_format == "torchscript":
+        if args.export_format == "torchscript":
             export_to_torchscript(model, dummy_input, save_path)
         elif args.export_format == "fp16":
             export_to_fp16(model, save_path)

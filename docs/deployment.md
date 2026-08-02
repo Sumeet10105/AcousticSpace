@@ -140,8 +140,7 @@ done
 - Implement batch prediction
 
 ### CPU Optimization
-- Use ONNX runtime
-- Quantize model weights
+- Use TorchScript/quantized models (ONNX export is no longer supported)
 - Reduce model size with distillation
 
 ### Load Balancing

@@ -79,10 +79,10 @@ def predict_single_file(
         wave_stats = extract_waveform_features(waveform)
         
         # 5. Fuse features (align to 100 time steps)
-        fused = fuse_features([mfcc, mel, chroma, spectral, rms, rir, breath, wave_stats], target_time_steps=100)
+        fused_raw = fuse_features([mfcc, mel, chroma, spectral, rms, rir, breath, wave_stats], target_time_steps=100)
         
         # Standardize features
-        fused = standardize_features(fused)
+        fused = standardize_features(fused_raw.clone())
         
         # Select appropriate feature representation for the model type
         if hasattr(model, "predict_proba"):
@@ -138,7 +138,8 @@ def predict_single_file(
             "probability": prediction_result["probability"],
             "latency_ms": latency_ms,
             "memory_used_mb": memory_used_mb,
-            "features": features
+            "features": features,
+            "fused_raw": fused_raw
         }
         
         # Simple feature importance heuristic:

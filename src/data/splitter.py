@@ -1,6 +1,7 @@
 """Data splitting utilities with speaker-aware stratification."""
 
 import logging
+import random
 from typing import Any, Dict, List, Sequence, Tuple, Union
 
 import numpy as np
